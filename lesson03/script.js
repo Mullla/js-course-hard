@@ -19,7 +19,7 @@ if (lang === 'ru'){
 
 // через switch-case
 switch(lang) {
-  case 'ru':  // if (x === 'value1')
+  case 'ru': 
   console.log(daysRu);
   break;
 
