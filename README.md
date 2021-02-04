@@ -13,3 +13,5 @@ Added function which checks an input value.
 - [lesson 05](https://github.com/Mullla/js-course-hard/tree/lesson05)
 Check, if number is prime.
 
+- [lesson 06](https://github.com/Mullla/guess-game)
+A game, where user shoul guess a number. 
