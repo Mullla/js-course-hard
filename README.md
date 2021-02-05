@@ -15,3 +15,6 @@ Check, if number is prime.
 
 - [lesson 06](https://github.com/Mullla/guess-game)
 A game, where user shoul guess a number. 
+
+- [lesson 07](https://github.com/Mullla/js-course-hard/tree/lesson07)
+Show on screen today's day in bold font.
