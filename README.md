@@ -18,3 +18,8 @@ A game, where user shoul guess a number.
 
 - [lesson 07](https://github.com/Mullla/js-course-hard/tree/lesson07)
 Show on screen today's day in bold font.
+
+- [lesson 09](https://github.com/Mullla/js-course-hard/tree/lesson09)
+Show on screen today's day and time.
+
+
