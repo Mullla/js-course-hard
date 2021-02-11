@@ -26,10 +26,6 @@ let calculateBtn = document.getElementById('start'), // calculate button
 let isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
-// сделать первую букву строки заглавной
-function capitalizeFirstLetter (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 
 let appData = {
@@ -189,16 +185,20 @@ let appData = {
             }
         });
     },
+    capitalizeFirstLetter: function (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    },
 };
 
-calculateBtn.disabled = true;
-
-salaryAmount.addEventListener('input', function () {
+calculateBtn.addEventListener('click', function () {  
     if (isNumber(salaryAmount.value)) {
         calculateBtn.disabled = false;
-        calculateBtn.addEventListener('click', appData.start);
+        appData.start();
+    } else {
+        calculateBtn.disabled = true;
     }
-})
+});
+
 
 // ввод только русских букв без латиницы и цифр
 placeholderName.forEach(function (item) {
@@ -207,6 +207,7 @@ placeholderName.forEach(function (item) {
             return;
         } else {
             alert('Можно вводить только русские буквы');
+            item.value = item.value.replace(/[^а-я]+/i, '');
         }
     })
 });
@@ -218,6 +219,7 @@ placeholderAmount.forEach(function (item) {
             return;
         } else {
             alert('Можно вводить только цифры');
+            item.value = item.value.replace(/[^0-9]+/i, '');
         }
     })
 });
@@ -245,5 +247,3 @@ periodSelect.addEventListener('input', function () {
 // возможные расходы
 // console.log(appData.addExpenses.map(item => capitalizeFirstLetter(item)).join(', '));
 
-
-console.log(placeholderName);
