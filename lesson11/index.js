@@ -203,24 +203,14 @@ calculateBtn.addEventListener('click', function () {
 // ввод только русских букв без латиницы и цифр
 placeholderName.forEach(function (item) {
     item.addEventListener('input', function () {
-        if (item.value.match(/[а-я]+/i)) {
-            return;
-        } else {
-            alert('Можно вводить только русские буквы');
-            item.value = item.value.replace(/[^а-я]+/i, '');
-        }
+        item.value = item.value.replace(/[^а-я]+/i, '');
     })
 });
 
 // ввод только цифр
 placeholderAmount.forEach(function (item) {
     item.addEventListener('input', function () {
-        if (item.value.match(/[0-9]+/i)) {
-            return;
-        } else {
-            alert('Можно вводить только цифры');
-            item.value = item.value.replace(/[^0-9]+/i, '');
-        }
+        item.value = item.value.replace(/[^0-9]+/i, '');
     })
 });
 
