@@ -107,8 +107,11 @@ let appData = {
         for (let i = 1; i < expensesItems.length; i++){
             let expensesTitle = expensesItems[i].querySelector('.expenses-title');
             let expensesAmount = expensesItems[i].querySelector('.expenses-amount');
+
             expensesTitle.value = '';
+            formatChar(expensesTitle);
             expensesAmount.value = '';
+            formatNum(expensesAmount);
         }
 
         if(expensesItems.length === 3){
@@ -124,8 +127,11 @@ let appData = {
         for (let i = 1; i < incomeItems.length; i++){
             let incomeTitle = incomeItems[i].querySelector('.income-title');
             let incomeAmount = incomeItems[i].querySelector('.income-amount');
+
             incomeTitle.value = '';
+            formatChar(incomeTitle);
             incomeAmount.value = '';
+            formatNum(incomeAmount);
         }
 
         if(incomeItems.length === 3){
@@ -201,19 +207,20 @@ calculateBtn.addEventListener('click', function () {
 
 
 // ввод только русских букв без латиницы и цифр
-placeholderName.forEach(function (item) {
+function formatChar(item){
     item.addEventListener('input', function () {
         item.value = item.value.replace(/[^а-я]+/i, '');
-    })
-});
+    });
+}
+placeholderName.forEach(item => formatChar(item));
 
 // ввод только цифр
-placeholderAmount.forEach(function (item) {
+function formatNum(item){
     item.addEventListener('input', function () {
         item.value = item.value.replace(/[^0-9]+/i, '');
-    })
-});
-
+    });
+}
+placeholderAmount.forEach(item => formatNum(item));
 
 addExpensesBtn.addEventListener('click', appData.addExpensesBlock);
 addIncomeBtn.addEventListener('click', appData.addIncomeBlock);
