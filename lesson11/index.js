@@ -209,7 +209,7 @@ calculateBtn.addEventListener('click', function () {
 // ввод только русских букв без латиницы и цифр
 function formatChar(item){
     item.addEventListener('input', function () {
-        item.value = item.value.replace(/[^а-я]+/i, '');
+        item.value = item.value.replace(/[^а-яё\.\,\s]+/i, '');
     });
 }
 placeholderName.forEach(item => formatChar(item));
@@ -217,7 +217,7 @@ placeholderName.forEach(item => formatChar(item));
 // ввод только цифр
 function formatNum(item){
     item.addEventListener('input', function () {
-        item.value = item.value.replace(/[^0-9]+/i, '');
+        item.value = item.value.replace(/[^0-9\.]+/i, '');
     });
 }
 placeholderAmount.forEach(item => formatNum(item));
