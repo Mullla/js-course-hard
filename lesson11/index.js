@@ -209,7 +209,7 @@ calculateBtn.addEventListener('click', function () {
 // ввод только русских букв без латиницы и цифр
 function formatChar(item){
     item.addEventListener('input', function () {
-        item.value = item.value.replace(/[^а-яё\.\,\s\-]+/i, '');
+        item.value = item.value.replace(/[^а-яё\s\-]+/i, '');
     });
 }
 placeholderName.forEach(item => formatChar(item));
