@@ -42,15 +42,15 @@ class AppData {
         this.budgetMonth = 0;
         this.expensesMonth = 0;
     }
-    //! check() {
-    //     const _this = this;
-    //     if (appData.isNumber(salaryAmount.value)) {
-    //         calculateBtn.disabled = false;
-    //         _this.start();
-    //     } else {
-    //         calculateBtn.disabled = true;
-    //     }
-    // }
+    check() {
+        const _this = this;
+        if (appData.isNumber(salaryAmount.value)) {
+            calculateBtn.disabled = false;
+            _this.start();
+        } else {
+            calculateBtn.disabled = true;
+        }
+    }
     start() {
         const dataInputs = document.querySelectorAll('.data input[type=text]'); // все текстовые инпуты с информацией
 
@@ -70,10 +70,6 @@ class AppData {
         this.getExpensesIncomes();
         this.getExpensesMonth();
         this.getAddExpInc();
-// * * * * * * * * *
-        // this.getAddIncome();
-        // this.getAddExpenses();
-// * * * * * * * *
         this.getBudget();
 
         this.showResult();
@@ -211,64 +207,28 @@ class AppData {
         targetMonthResult.value = Math.ceil(this.getTargetMonth());
         incomePeriodResult.value = this.calcSavedMoney();
     }
-
-// ? ----------------
-
-    // getAddExpenses() {
-    //     const _this = this;
-    //     const addExpenses = additionalExpenses.value.split(',');
-    //     addExpenses.forEach(function (item) {
-    //         item = item.trim();
-    //         if (item !== '') {
-    //             _this.addExpenses.push(item);
-    //         }
-    //     });
-    // }
-// * ----------------------------------------------------------------
-    // getAddIncome() {
-    //     const _this = this;
-    //     additionalIncomeFields.forEach(function (item) {
-    //         const itemValue = item.value.trim();
-    //         if (itemValue !== '') {
-    //             _this.addIncome.push(itemValue);
-    //         }
-    //     });
-    // }
-
     getAddExpInc(){
-        // this - appData
+        //строки
+        const expenses = additionalExpenses.value.trim(), 
+            income = additionalIncomeFields[0].value.trim() + ', ' + additionalIncomeFields[1].value.trim();
 
-        const expenses = additionalExpenses.value.split(','),
-            income = additionalIncomeFields;
+        function addValues (str, addArray) {
+            const arr = str.split(',');
 
-        if (expenses) {
-            expenses.forEach(itemValue => itemValue = itemValue.trim());
-            let addArray = expenses;
+            arr.forEach(function (itemValue) {
+                itemValue = itemValue.trim();
 
-            console.log(addArray);
-        } else if (income) {
-            income.forEach(itemValue => itemValue = itemValue.value.trim());
-            let addArray = addIncome;
-            console.log(addArray);
-        }
-            
-        // } else if (x) //x === 'additional_expenses_item'
-        // {
-    //         const addExpenses = additionalExpenses.value.split(',');
-    // //     addExpenses.forEach(function (item) {
-    // //         item = item.trim();
-            // addArray = addExpenses
-        // }
-        //console.log(additionalExpenses.value.split(',')) // массив
-        //console.log(additionalIncomeFields) // nodelist из элементов
+                    if (itemValue !== '') {
+                        addArray.push(itemValue);
+                    } 
+            });
 
+            return addArray;
+        };
 
-        // if (itemValue !== '') {
-        //     this.addArray.push(itemValue);
-        // }
-
+        addValues(expenses, this.addExpenses);
+        addValues(income, this.addIncome);
     }
-
     isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
@@ -291,8 +251,7 @@ class AppData {
         const _this = this;
 
         calculateBtn.addEventListener('click', function () {
-            // ! _this.check();
-            _this.start();
+            _this.check();
         });
 
         resetBtn.addEventListener('click', function () {
