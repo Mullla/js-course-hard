@@ -78,8 +78,7 @@ class AppData {
         placeholderName.forEach(item => _this.formatChar(item));
         placeholderAmount.forEach(item => _this.formatNum(item));
     }
-    /* Кнопки */
-    start() {
+    blockFields(){
         const dataInputs = document.querySelectorAll('.data input[type=text]'); // все текстовые инпуты с информацией
 
         dataInputs.forEach(item => {
@@ -90,8 +89,15 @@ class AppData {
         addExpensesBtn.disabled = true;
         addIncomeBtn.disabled = true;
 
+        // показать кнопку "сбросить"
         resetBtn.style.display = 'block';
+        // скрыть кнопку "рассчитать"
         calculateBtn.style.display = 'none';
+    }
+
+    /* Кнопки */
+    start() {
+        this.blockFields();
 
         this.budget = +salaryAmount.value;
 
@@ -265,7 +271,6 @@ class AppData {
         additionalIncomeResult.value = this.addIncome.join(', ');
         targetMonthResult.value = Math.ceil(this.getTargetMonth());
         incomePeriodResult.value = this.calcSavedMoney();
-
     }
     getAddExpenses() {
         const _this = this;
@@ -333,6 +338,40 @@ class AppData {
             depositBankSelect.removeEventListener('change', this.changePercent());
         }
     }
+    getData(){
+        let data = JSON.parse(localStorage.getItem('dataResult'));
+        const _this = this;
+        // поиск куки с именем, если его нет, то undefined, иначе возвращает значение куки
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp("(?:^|; )" + 
+                name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+                return matches ? decodeURIComponent(matches[1]) : undefined;
+            }
+        
+            // console.log(getCookie('monthResult'));
+            let keysArr = Object.keys(data);
+            for (let i = 0; i < keysArr.length; i++) {
+                if (!getCookie(keysArr[i]) || !getCookie('isLoad')) {
+                    this.deleteData();
+                    this.reset();
+                }
+                
+            }
+
+        if (data){
+            _this.blockFields();
+
+            budgetMonthResult.value = data.monthResult;
+            budgetDayResult.value = data.dayResult;
+            expensesMonthResult.value = data.expensesResult;
+            additionalExpensesResult.value = data.addExpensesResult;
+            additionalIncomeResult.value = data.addIncomeResult;
+            targetMonthResult.value = data.targetMonthResult;
+            incomePeriodResult.value = data.savingsResult;
+        }
+        
+
+    }  
     saveData(){
         const dataResult = {
             //доход за месяц
@@ -351,20 +390,49 @@ class AppData {
             targetMonthResult: Math.ceil(this.getTargetMonth()),
         }   
 
-        //перевожу в JSON
-        const dataResultToJSON = JSON.stringify(dataResult);
         // сохраняю в localStorage по ключу
-        localStorage.setItem('dataResult', dataResultToJSON);
-
-        console.log('data saved', dataResult);
-
-        this.saveCookeis();
+        localStorage.setItem('dataResult', JSON.stringify(dataResult));
+        // сохраняю cookie
+        this.saveCookies();
     }
-    saveCookeis() {
-        console.log('cookies saved')
+    saveCookies() {
+        function setCookie(key, value, year, month, day, path, domain, secure) {
+            let cookieStr = key + '=' + encodeURI(value); //key не кодирую, так как они на англ
+            if(year){
+                const expires = new Date(year, month-1, day);
+                cookieStr += '; expires=' + expires.toGMTString();
+            }
+            cookieStr += path ? '; path=' + encodeURI(path) : '';
+            cookieStr += domain ? '; domain=' + encodeURI(domain) : '';
+            cookieStr += secure ? '; secure=' + secure : '';
+
+            document.cookie = cookieStr;
+        }
+
+        setCookie('monthResult', this.budgetMonth.toString(), '2022', '01', '01');
+        setCookie('dayResult', Math.ceil(this.budgetDay).toString(), '2022', '01', '01');
+        setCookie('expensesResult', this.expensesMonth.toString(), '2022', '01', '01');
+        setCookie('addIncomeResult', this.addIncome.join(', ').toString(), '2022', '01', '01');
+        setCookie('addExpensesResult', this.addExpenses.join(', ').toString(), '2022', '01', '01');
+        setCookie('savingsResult', Math.floor(this.calcSavedMoney()).toString(), '2022', '01', '01');
+        setCookie('targetMonthResult', Math.ceil(this.getTargetMonth()).toString(), '2022', '01', '01');
+        setCookie('isLoad', 'true');
     }
     deleteData(){
-        console.log('data was deleted')
+        // очищаю localStorage от dataResult
+        localStorage.removeItem('dataResult');
+        this.deleteCookies();
+    }
+    deleteCookies() {
+        let cookies = decodeURI(document.cookie).split('; '); // cделать массив из cookies
+
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i];
+            let eqPos = cookie.indexOf("=");
+            let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+            document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
     }
     eventListeners() {
         const _this = this;
@@ -398,6 +466,7 @@ class AppData {
         depositCheckbox.addEventListener('change', function (){
             _this.depositHandler();
         })
+
     }
 }
 
@@ -408,4 +477,6 @@ const appData = new AppData();
 
 appData.checkValues();
 appData.eventListeners.call(appData);
-
+this.addEventListener('DOMContentLoaded', function(){
+    appData.getData.call(appData);
+})
