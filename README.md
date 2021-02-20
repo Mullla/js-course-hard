@@ -22,4 +22,19 @@ Show on screen today's day in bold font.
 - [lesson 09](https://github.com/Mullla/js-course-hard/tree/lesson09)
 Show on screen today's day and time.
 
+- [lesson 13](https://github.com/Mullla/js-course-hard/tree/lesson11)
+Button chenge background with random color.
+
+- [lesson 14](https://github.com/Mullla/new-dom-element/tree/lesson14)
+Added square with DomElement class. 
+
+- [lesson 15](https://github.com/Mullla/js-course-hard/tree/lesson15)
+Added regExp functions.
+
+
+- lesson 16
+  * [destructure](https://codepen.io/mullla/pen/oNYwVBm)
+  * [cookies and localStorage](https://github.com/Mullla/js-course-hard/tree/lesson16)
+
+
 
