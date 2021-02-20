@@ -23,7 +23,7 @@ Show on screen today's day in bold font.
 Show on screen today's day and time.
 
 - [lesson 13](https://github.com/Mullla/js-course-hard/tree/lesson11)
-Button chenge background with random color.
+Button change background with random color.
 
 - [lesson 14](https://github.com/Mullla/new-dom-element/tree/lesson14)
 Added square with DomElement class. 
