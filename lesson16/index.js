@@ -93,6 +93,8 @@ class AppData {
         resetBtn.style.display = 'block';
         // скрыть кнопку "рассчитать"
         calculateBtn.style.display = 'none';
+
+        // periodSelect.disabled = true;
     }
 
     /* Кнопки */
@@ -162,6 +164,7 @@ class AppData {
         addExpensesBtn.disabled = false;
         addIncomeBtn.disabled = false;
         depositCheckbox.checked = false;
+        // periodSelect.disabled = false;
     }
     addExpensesBlock() {
         const cloneExpensesItem = expensesItems[0].cloneNode(true);
@@ -355,7 +358,6 @@ class AppData {
                     this.deleteData();
                     this.reset();
                 }
-                
             }
 
         if (data){
@@ -368,9 +370,14 @@ class AppData {
             additionalIncomeResult.value = data.addIncomeResult;
             targetMonthResult.value = data.targetMonthResult;
             incomePeriodResult.value = data.savingsResult;
+
+            function getSavings(){
+                return data.savingsResult * periodSelect.value;
+            }
+            return getSavings();
         }
         
-
+        
     }  
     saveData(){
         const dataResult = {
@@ -479,4 +486,8 @@ appData.checkValues();
 appData.eventListeners.call(appData);
 this.addEventListener('DOMContentLoaded', function(){
     appData.getData.call(appData);
+    periodSelect.addEventListener('input', function () {
+        incomePeriodResult.value = appData.getData.call(appData);
+        periodAmount.textContent = periodSelect.value;
+    });
 })
