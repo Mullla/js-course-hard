@@ -61,11 +61,28 @@ window.addEventListener('DOMContentLoaded', function () {
 
                 if (target.closest('div.menu') //если это иконка меню
                     || target.classList.contains('close-btn') // или есть кнопка закрыть
-                    || target.closest('a') // или это ссылка
+                    || target.closest('li>a') // или это ссылка
                     || ( menu.classList.contains('active-menu') && !target.closest('.active-menu') )) { // или меню открыто и при этом клик не на меню
 
                     handlerMenu();
                 }
+
+                // for smooth scroll
+                if (target.closest('li>a') || target.closest('a>img')) {
+                    event.preventDefault(); // отменяю обычный переход по ссылке, чтобы добавить плавный
+                
+                    //нахожу ближайшую ссылку, т.к. есть картинка в ссылке, и перезыписываю, чтобы таргетом была именно ссылка и дальше работать с ней
+                    target = target.closest('a'); 
+                
+                    let id = target.getAttribute('href').substr(1); //выделяю часть ссылки href = #<...>, чтобы подставить значение <...> и найти элемент по id
+                
+                    document.getElementById(id).scrollIntoView({ //скроллю к элементу с заданным id
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                }
+
             });
     };
 
@@ -162,18 +179,28 @@ window.addEventListener('DOMContentLoaded', function () {
     tabs();
 
     // smooth scroll
-    const smoothScroll = () => {
-        const scrollBtn = document.querySelector('a[href="#service-block"]');
+    // const smoothScroll = () => {
 
+    //     document.addEventListener('click', event => {
+    //         let target = event.target;
 
-        const block = document.getElementById('all-progects');
+    //         if (target.closest('li>a') || target.closest('a>img')) {
+    //             event.preventDefault(); // отменяю обычный переход по ссылке, чтобы добавить плавный
 
+    //             target = target.closest('a'); 
 
-        scrollBtn.addEventListener('click', ()=>{
-            scrollTo(block);
-        });
-    };
+    //             let id = target.getAttribute('href').substr(1); //выделяю часть ссылки href = #<...>, чтобы подставить значение <...> и найти элемент по id
 
-    smoothScroll();
+    //             document.getElementById(id).scrollIntoView({ //скроллю к элементу с заданным id
+    //                 behavior: 'smooth',
+    //                 block: 'start'
+    //             });
+    //         }
+
+    //     });
+
+    // };
+
+    // smoothScroll();
 });
 
