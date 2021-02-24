@@ -59,10 +59,9 @@ window.addEventListener('DOMContentLoaded', function () {
             document.addEventListener('click', (event) => {
                 let target = event.target;
 
-                console.log(target)
                 if (target.closest('div.menu') //если это иконка меню
                     || target.classList.contains('close-btn') // или есть кнопка закрыть
-                    || target.closest('a') // или это ссылка
+                    || target.closest('li>a') // или это ссылка
                     || ( menu.classList.contains('active-menu') && !target.closest('.active-menu') )) { // или меню открыто и при этом клик не на меню
 
                     handlerMenu();
