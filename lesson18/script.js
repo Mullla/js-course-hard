@@ -3,59 +3,54 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const shape = document.querySelector('.shape'),
         pauseBtn = document.querySelector('.pause'),
-        resetBtn = document.querySelect('.reset');
-
-    let animationId;
-    function animate({timing, draw, duration}) {
-
-        // let start = performance.now();
-
-        animationId = requestAnimationFrame(animate);
-
-
-        // описание работы requestAnimationFrame
-        // requestAnimationFrame(function animate(time) {
-        //     // timeFraction изменяется от 0 до 1
-        //     let timeFraction = (time - start) / duration;
-        //     if (timeFraction > 1) timeFraction = 1;
+        resetBtn = document.querySelector('.reset');
     
-        //     // вычисление текущего состояния анимации
-        //     let progress = timing(timeFraction);
-    
-        //     function draw(progress) {
 
-        //     } 
+    const animation = () => {
+        let step = 0;
+        let shapeId;
 
-        //     function pause() {
-        //         cancelAnimationFrame(animationId);
-        //     }
+        const shapeAnimation = () => {
+            step += 0.2;
+            shapeId = requestAnimationFrame(shapeAnimation);
 
-        //     function start() {
-        //         // store the id returned from requestAnimationFrame
-        //         animationId = requestAnimationFrame(draw);
-        //     }
+            if (step < 50) {
+                shape.style.width = step * 2 + 'px';
+                shape.style.height = step + 'px';
+            }
 
-            
+        };
 
-        //     if (timeFraction < 1) {
-        //         requestAnimationFrame(animate);
-        //     }
+        shapeAnimation();
 
-        // });
+        let animate = true;
+        pauseBtn.addEventListener('click', () => {
+            // если анимация запущена, то она останавливается и флаг меняется на противоположный
+            if (animate) { 
+                cancelAnimationFrame(shapeId);
+                animate = false;
+            // если анимация не запущена, то она запускается
+            } else {
+                requestAnimationFrame(shapeAnimation);
+                animate = true;
+            }
+        });
 
-        // start();
-    }
 
-    // для паузы
-    let animate = false;
-    pauseBtn.addEventListener('click', () => {
-        if (!animate) {
-            animationId = requestAnimationFrame(animate);
-            animate = true;
-        } else {
-            animate = false;
-            cancelAnimationFrame(animationId);
-        }
+
+    };
+
+    const id = requestAnimationFrame(animation);
+
+    resetBtn.addEventListener('click', () =>{
+        cancelAnimationFrame(id);
+        requestAnimationFrame(animation);
     });
 
-})
+
+
+    
+});
+
+
+
