@@ -5,50 +5,47 @@ window.addEventListener('DOMContentLoaded', function() {
         pauseBtn = document.querySelector('.pause'),
         resetBtn = document.querySelector('.reset');
     
+    let animate = false,
+        step = 0,
+        animationId;
 
     const animation = () => {
-        let step = 0;
-        let shapeId;
+        step += 0.2;
 
-        const shapeAnimation = () => {
-            step += 0.2;
-            shapeId = requestAnimationFrame(shapeAnimation);
+        if (step < 50) {
+            shape.style.width = step * 2 + 'px';
+            shape.style.height = step + 'px';
 
-            if (step < 50) {
-                shape.style.width = step * 2 + 'px';
-                shape.style.height = step + 'px';
-            }
+            shape.style.backgroundColor = `rgb(${(10 * step).toString(16)}, ${(20 * step).toString(16)}, ${(15 * step).toString(16)})`
+            console.log(shape.style.backgroundColor)
 
-        };
+            animationId = requestAnimationFrame(animation);
+        }
 
-        shapeAnimation();
-
-        let animate = true;
-        pauseBtn.addEventListener('click', () => {
-            // если анимация запущена, то она останавливается и флаг меняется на противоположный
-            if (animate) { 
-                cancelAnimationFrame(shapeId);
-                animate = false;
-            // если анимация не запущена, то она запускается
-            } else {
-                requestAnimationFrame(shapeAnimation);
-                animate = true;
-            }
-        });
-
-
-
+        animate = true;
     };
 
-    const id = requestAnimationFrame(animation);
+    animation();
 
-    resetBtn.addEventListener('click', () =>{
-        cancelAnimationFrame(id);
-        requestAnimationFrame(animation);
+    pauseBtn.addEventListener('click', () => {
+        // если анимация запущена, то она останавливается и флаг меняется на противоположный
+        if (animate) { 
+            cancelAnimationFrame(animationId);
+            animate = false;
+        // если анимация не запущена, то она запускается
+        } else {
+            requestAnimationFrame(animation);
+            animate = true;
+        }
     });
 
 
-
+    resetBtn.addEventListener('click', () =>{
+        step = 0;
+        animate = false;
+        cancelAnimationFrame(animationId);
+        requestAnimationFrame(animation);
+    });
     
 });
 
