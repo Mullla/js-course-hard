@@ -41,8 +41,10 @@ class Todo{
 
         if (todo.completed) {
             this.todoListCompleted.append(li);
+            this.animationRemove(li);
         } else {
             this.todoList.append(li);
+            this.animationCheck(li);
         }
 
         this.input.value = '';
@@ -114,21 +116,27 @@ class Todo{
         
         container.addEventListener('click', (e) => {
             let target = e.target;
+                // item = target.closest('.todo-item')
+                // nodeList = this.todoList.childNodes,
+                // nodeListCompleted = this.todoListCompleted.childNodes;
 
             if(target.matches('.todo-remove')){
                 this.deleteItem(target);
 
-                this.animation(this.todoList);
-                this.animation(this.todoListCompleted);
+                // this.animationCheck(nodeList[nodeList.length-1]);
+                // this.animationCheck(nodeListCompleted[nodeListCompleted.length-1]);
 
             } else if(target.matches('.todo-complete')){
                 this.completeItem(target);
 
-                this.animation(this.todoList);
-                this.animation(this.todoListCompleted);
+                // this.animationCheck(nodeList[nodeList.length-1]);
+                // this.animationCheck(nodeListCompleted[nodeListCompleted.length-1]);
 
             } else if(target.matches('.todo-edit')){
                 this.editItem(target);
+                // устанавливает фокус на поле
+                target.closest('.todo-item').focus();
+
             }
         });
     }
@@ -139,27 +147,60 @@ class Todo{
         this.handler();
     }
 
-    animation(elem){
-        let start = Date.now(); // запомнить время начала
+    animationCheck(elem){
 
-        let timer = setInterval(function() {
-            // сколько времени прошло с начала анимации
-            let timePassed = Date.now() - start;
+        let step = 0, 
+            animationId;
 
-            if (timePassed >= 1500) {
-                clearInterval(timer); // закончить анимацию через 3 секунды
-                return;
-            }
-            // отрисовать анимацию на момент timePassed, прошедший с начала анимации
-            draw(timePassed);
+            const animateElem = () => {
+                step ++;
+        
+                if (step <= 50) {
+                    elem.style.width = 50 + step + '%';
+                    animationId = requestAnimationFrame(animateElem);
+                } else {
+                    cancelAnimationFrame(animationId);
+                }
 
-        }, 20);
+            };
+        
+            animateElem();
 
-        function draw(timePassed) {
-            elem.style.width = 50 + Math.round(timePassed / 30) + 1 + '%';
-        }
     }
 
+    animationRemove(elem){
+        function animate({timing, draw, duration}) {
+
+            let start = performance.now();
+        
+            requestAnimationFrame(function animate(time) {
+              // timeFraction изменяется от 0 до 1
+                let timeFraction = (time - start) / duration;
+                if (timeFraction > 1) timeFraction = 1;
+        
+              // вычисление текущего состояния анимации
+                let progress = timing(timeFraction);
+        
+              draw(progress); // отрисовать её
+        
+                if (timeFraction < 1) {
+                requestAnimationFrame(animate);
+                }
+        
+            });
+            }
+
+
+            animate({
+            duration: 500,
+            timing(timeFraction) {
+                return timeFraction;
+            },
+            draw(progress) {
+                elem.style.left = 100 * (1 - progress) + 'px';
+            }
+            });
+    }
 }
 
 const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-completed');
