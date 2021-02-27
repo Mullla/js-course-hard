@@ -41,10 +41,8 @@ class Todo{
 
         if (todo.completed) {
             this.todoListCompleted.append(li);
-            this.animationRemove(li);
         } else {
             this.todoList.append(li);
-            this.animationCheck(li);
         }
 
         this.input.value = '';
@@ -72,24 +70,49 @@ class Todo{
     }
 
     deleteItem(target){
+        const elem = target.closest('.todo-item');
         // нахожу ключ элемента
-        const itemKey = target.closest('.todo-item').key;
+        const itemKey = elem.key;
 
+        this.animate({
+            duration: 700,
+            timing(timeFraction) {
+                return timeFraction;
+            },
+            draw(progress) {
+                elem.style.backgroundColor = `rgba(${42*(1-progress)}, ${78*(1-progress)}, ${105*(1-progress)})`;
+                elem.style.opacity = (1 - progress);
+            }
+        });
         // удаляю из коллекции по ключу
         this.todoData.delete(itemKey);
 
-        this.render();
+        setTimeout(this.render.bind(this), 700);
     }
 
     completeItem(target){
+        const elem = target.closest('.todo-item');
         // нахожу ключ элемента
-        const itemKey = target.closest('.todo-item').key;
+        const itemKey = elem.key;
         // получаю элемент коллекции по ключу
         const item = this.todoData.get(itemKey);
+
+        
         // меняю его свойство completed на противоположное
         item.completed = !item.completed;
 
-        this.render();
+        this.animate({
+            duration: 800,
+            timing(timeFraction) {
+                return timeFraction;
+            },
+            draw(progress) {
+                elem.style.transform = `scale(${1.1*(1-progress)})`;
+            }
+        });
+
+
+        setTimeout(this.render.bind(this), 800);
     }
 
     editItem(target){
@@ -116,21 +139,12 @@ class Todo{
         
         container.addEventListener('click', (e) => {
             let target = e.target;
-                // item = target.closest('.todo-item')
-                // nodeList = this.todoList.childNodes,
-                // nodeListCompleted = this.todoListCompleted.childNodes;
 
             if(target.matches('.todo-remove')){
                 this.deleteItem(target);
 
-                // this.animationCheck(nodeList[nodeList.length-1]);
-                // this.animationCheck(nodeListCompleted[nodeListCompleted.length-1]);
-
             } else if(target.matches('.todo-complete')){
                 this.completeItem(target);
-
-                // this.animationCheck(nodeList[nodeList.length-1]);
-                // this.animationCheck(nodeListCompleted[nodeListCompleted.length-1]);
 
             } else if(target.matches('.todo-edit')){
                 this.editItem(target);
@@ -147,60 +161,29 @@ class Todo{
         this.handler();
     }
 
-    animationCheck(elem){
+    // паттерн, который определяет анимацию
+    // при вызове надо задать парметры анимации: draw
+    animate({timing, draw, duration}) {
 
-        let step = 0, 
-            animationId;
-
-            const animateElem = () => {
-                step ++;
+        let start = performance.now();
         
-                if (step <= 50) {
-                    elem.style.width = 50 + step + '%';
-                    animationId = requestAnimationFrame(animateElem);
-                } else {
-                    cancelAnimationFrame(animationId);
-                }
-
-            };
+        requestAnimationFrame(function animate(time) {
+            // timeFraction изменяется от 0 до 1
+            let timeFraction = (time - start) / duration;
+            if (timeFraction > 1) timeFraction = 1;
         
-            animateElem();
-
-    }
-
-    animationRemove(elem){
-        function animate({timing, draw, duration}) {
-
-            let start = performance.now();
+            // вычисление текущего состояния анимации
+            let progress = timing(timeFraction);
         
-            requestAnimationFrame(function animate(time) {
-              // timeFraction изменяется от 0 до 1
-                let timeFraction = (time - start) / duration;
-                if (timeFraction > 1) timeFraction = 1;
+            draw(progress); // отрисовать её
         
-              // вычисление текущего состояния анимации
-                let progress = timing(timeFraction);
-        
-              draw(progress); // отрисовать её
-        
-                if (timeFraction < 1) {
+            if (timeFraction < 1) {
                 requestAnimationFrame(animate);
-                }
+            }
         
-            });
-            }
-
-
-            animate({
-            duration: 500,
-            timing(timeFraction) {
-                return timeFraction;
-            },
-            draw(progress) {
-                elem.style.left = 100 * (1 - progress) + 'px';
-            }
-            });
+        });
     }
+
 }
 
 const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-completed');
