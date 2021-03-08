@@ -29,12 +29,44 @@ Button change background with random color.
 Added square with DomElement class. 
 
 - [lesson 15](https://github.com/Mullla/js-course-hard/tree/lesson15)
-Added regExp functions.
-
+**Calculator**: Added regExp functions.
 
 - lesson 16
-  * [destructure](https://codepen.io/mullla/pen/oNYwVBm)
+  * *Codepen*: [destructure](https://codepen.io/mullla/pen/oNYwVBm)
   * [cookies and localStorage](https://github.com/Mullla/js-course-hard/tree/lesson16)
 
+- lesson 18
+ * [throttle and debounce](https://github.com/Mullla/js-course-hard/tree/lesson18_part2)
+ * hard level#2
+  ** *Codepen*: [puzzle with timeouts](https://codepen.io/mullla/pen/poNpRqg)
+  ** [requestAnimationFrame](https://github.com/Mullla/js-course-hard/tree/lesson18)
 
+- [lesson 19](https://github.com/Mullla/js-course-hard/tree/lesson19)
+**3D Glo**: Smooth scroll.
+
+- [lesson 20](https://github.com/Mullla/js-course-hard/tree/lesson20)
+**3D Glo**: Toggle menu with only 1 delegation.
+
+- [lesson 22](https://github.com/Mullla/js-course-hard/tree/lesson22)
+Added animation, editItem().
+
+- [lesson 23](https://github.com/Mullla/js-course/tree/lesson23)
+Master regular expressions.
+
+- [lesson 24](https://github.com/Mullla/js-course/tree/lesson24)
+**3D Glo**: Added animation to calculator result.
+
+- [lesson 26](https://github.com/Mullla/js-course/tree/lesson26)
+**3D Glo**: Added preloader to loading message.
+ 
+- [lesson 28](https://github.com/Mullla/js-course/tree/lesson28)
+Get data from json with promises.
+
+
+## Bonus lesson
+- [auth](https://github.com/Mullla/auth-lesson)
+ * part#1: Add every user as an object to array, using prompts. Render list of users to the page. Add information to localStorage.
+ * part#2: Delete user from database and localStorage. Add authorization with login and password using alert.
+- [heroes](https://github.com/Mullla/bonus-heroes)
+Render heroes cards and get information from json-file with ajax.
 
