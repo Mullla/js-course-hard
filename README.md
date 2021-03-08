@@ -38,8 +38,8 @@ Added square with DomElement class.
 - lesson 18
  * [throttle and debounce](https://github.com/Mullla/js-course-hard/tree/lesson18_part2)
  * hard level#2
-  * *Codepen*: [puzzle with timeouts](https://codepen.io/mullla/pen/poNpRqg)
-  * [requestAnimationFrame](https://github.com/Mullla/js-course-hard/tree/lesson18)
+   * *Codepen*: [puzzle with timeouts](https://codepen.io/mullla/pen/poNpRqg)
+   * [requestAnimationFrame](https://github.com/Mullla/js-course-hard/tree/lesson18)
 
 - [lesson 19](https://github.com/Mullla/js-course-hard/tree/lesson19)
 **3D Glo**: Smooth scroll.
