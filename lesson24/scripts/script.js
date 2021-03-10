@@ -59,9 +59,11 @@ window.addEventListener('DOMContentLoaded', function () {
             };
 
             // smooth scroll
-            const smoothScroll = (target) => {
+            const smoothScroll = (e) => {
+                let target = e.target;
+
                 if (target.closest('li>a') || target.closest('a>img')) {
-                    event.preventDefault(); // отменяю обычный переход по ссылке, чтобы добавить плавный
+                    e.preventDefault(); // отменяю обычный переход по ссылке, чтобы добавить плавный
 
                     target = target.closest('a'); 
 
